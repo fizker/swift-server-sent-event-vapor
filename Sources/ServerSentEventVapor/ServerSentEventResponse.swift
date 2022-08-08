@@ -1,6 +1,7 @@
 import Vapor
 import ServerSentEventModels
 
+/// A HTTP Response that streams Server-Sent events.
 public class ServerSentEventResponse: AsyncResponseEncodable {
 	let headers: HTTPHeaders = HTTPHeaders([
 		( "content-type", serverSentEventMIMEType ),
