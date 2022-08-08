@@ -33,8 +33,24 @@ public class ServerSentEventController {
 		}
 	}
 
+	/// Sends the given message to the connection with the given `UUID`.
+	/// - parameter message: The message to send.
+	/// - parameter id: The `UUID` of the connection that should receive the message.
+	public func emit(_ message: MessageEvent, to id: UUID) {
+		streams[id]?.yield(message)
+	}
+
+	/// Sends the given message to all current connections except the one matching the given `UUID`.
+	/// - parameter message: The message to send.
+	/// - parameter id: The `UUID` of the connection that should _not_ receive the message.
+	public func emit(_ message: MessageEvent, toAllExcept id: UUID) {
+		for (x, continuation) in streams where x != id {
+			continuation.yield(message)
+		}
+	}
+
 	/// Closes all currently open connections.
-	public func close() {
+	public func closeAll() {
 		for (_, continuation) in streams {
 			continuation.finish()
 		}
