@@ -3,13 +3,17 @@ import ServerSentEventModels
 
 /// A HTTP Response that streams Server-Sent events.
 public class ServerSentEventResponse: AsyncResponseEncodable {
+	/// The `UUID` representing this connection.
+	public let id: UUID
+
 	let headers: HTTPHeaders = HTTPHeaders([
 		( "content-type", serverSentEventMIMEType ),
 	])
 	private let stream: AsyncStream<MessageEvent>
 	private var onClose: () -> Void
 
-	init(stream: AsyncStream<MessageEvent>, onClose: @escaping () -> Void) {
+	init(id: UUID, stream: AsyncStream<MessageEvent>, onClose: @escaping () -> Void) {
+		self.id = id
 		self.stream = stream
 		self.onClose = onClose
 	}

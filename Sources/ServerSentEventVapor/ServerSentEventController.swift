@@ -16,7 +16,7 @@ public class ServerSentEventController {
 	/// - parameter id: The `UUID` that represents the connection.
 	/// - parameter onClose: A function that is executed when the connection is closed by the remote end.
 	public func createResponse(id: UUID, onClose: @escaping () -> Void) -> ServerSentEventResponse {
-		return ServerSentEventResponse(stream: createStream(id: id), onClose: onClose)
+		return ServerSentEventResponse(id: id, stream: createStream(id: id), onClose: onClose)
 	}
 
 	func createStream(id: UUID) -> Stream {
