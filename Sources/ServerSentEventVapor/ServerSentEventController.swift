@@ -15,8 +15,11 @@ public class ServerSentEventController {
 	/// Creates a new ``ServerSentEventResponse`` and returns it. The `Response` can be returned from a route.
 	/// - parameter id: The `UUID` that represents the connection.
 	/// - parameter onClose: A function that is executed when the connection is closed by the remote end.
-	public func createResponse(id: UUID, onClose: @escaping () -> Void) -> ServerSentEventResponse {
-		return ServerSentEventResponse(id: id, stream: createStream(id: id), onClose: onClose)
+	public func createResponse(id: UUID, onClose: @escaping () -> Void = {}) -> ServerSentEventResponse {
+		return ServerSentEventResponse(id: id, stream: createStream(id: id)) { [weak self] in
+			self?.streams.removeValue(forKey: id)
+			onClose()
+		}
 	}
 
 	func createStream(id: UUID) -> Stream {
