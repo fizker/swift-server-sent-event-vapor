@@ -3,7 +3,7 @@ import ServerSentEventModels
 import Vapor
 
 /// A controller that maintains the connections and can close or send messages.
-public class ServerSentEventController {
+open class ServerSentEventController {
 	public typealias Stream = AsyncStream<MessageEvent>
 
 	private var streams: [UUID: Stream.Continuation] = [:]
